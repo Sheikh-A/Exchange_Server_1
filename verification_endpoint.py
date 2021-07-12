@@ -40,7 +40,7 @@ def verify():
         algo_sig = sig
         algo_pk = pk
         if algosdk.util.verify_bytes(json.dumps(payload).encode('utf-8'),algo_sig,algo_pk):
-            result = True
+            result = False
 
     elif platform == "Ethereum":
         eth_encoded_msg = eth_account.messages.encode_defunct(text=json.dumps(payload))
