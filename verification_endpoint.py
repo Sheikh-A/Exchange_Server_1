@@ -30,34 +30,23 @@ app.url_map.strict_slashes = False
 def verify():
     content = request.get_json(silent=True)
 
-    platform = content["payload"]["platform"]
-    msg = content["payload"]["message"]
-    pk = content["payload"]["pk"]
     sig = content["sig"]
-    payload = content["payload"]
-
-    #Check if signature is valid
-    result = False #Should only be true if signature validates
-
-    #Algorand Case
-    if platform == 'Algorand':
-        algo_pk = payload["pk"]
-        algo_sig = content["sig"]
-        if algosdk.util.verify_bytes(msg.encode('utf-8'), sig, pk):
-            result = True
-        else:
-            result = False
-    elif platform == 'Ethereum':
+    pk = content["payload"]["pk"]
+    msg = content["payload"]["message"]
+    platform = content["payload"]["platform"]
+    result = True
+    if platform == 'Ethereum':
         eth_encoded_msg = eth_account.messages.encode_defunct(text=msg)
-        eth_recover = eth_account.Account.recover_message(eth_encoded_msg, signature=sig)
-        if eth_recover == pk:
+        if eth_account.Account.recover_message(eth_encoded_msg,signature=sig) == pk:
             result = True
         else:
             result = False
     else:
-        print("Please use Algorand or Ethereum")
-        result = False
-
+        if algosdk.util.verify_bytes(msg.encode('utf-8'),sig,pk):
+            result = True
+        else:
+            result = False
+    #Check if signature is valid
     return jsonify(result)
 
 if __name__ == '__main__':
