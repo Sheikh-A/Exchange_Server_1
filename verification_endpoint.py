@@ -22,16 +22,16 @@ def verify():
     payload = content["payload"]
     print(payload)
 
-    pk = payload["pk"]
+    pk = content["payload"]["pk"]
     print(pk)
 
     sig = content["sig"]
     print(sig)
 
-    message = payload["message"]
+    message = content["payload"]["message"]
     print(message)
 
-    platform = payload["platform"]
+    platform = content["payload"]["platform"]
     print(platform)
 
     result = False
