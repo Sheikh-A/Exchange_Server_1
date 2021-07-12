@@ -9,9 +9,9 @@ api = Api(app)
 app.url_map.strict_slashes = False
 
 
-@app.route('/')
-def home():
-    return "Hello this is the main page <h1>HELLO<h1>"
+# @app.route('/')
+# def home():
+#     return "Hello this is the main page <h1>HELLO<h1>"
 
 # @app.route("/<name>")
 # def user(name):
