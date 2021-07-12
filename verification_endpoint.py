@@ -37,14 +37,14 @@ def verify():
     result = False
 
     if platform == "Algorand":
-        algo_sig = content["sig"]
-        algo_pk = payload["pk"]
+        algo_sig = sig
+        algo_pk = pk
         if algosdk.util.verify_bytes(json.dumps(payload).encode('utf-8'),algo_sig,algo_pk):
             result = True
 
     elif platform == "Ethereum":
         eth_encoded_msg = eth_account.messages.encode_defunct(text=json.dumps(payload))
-        eth_recover = eth_account.Account.recover_message(eth_encoded_msg, signature=content["sig"])
+        eth_recover = eth_account.Account.recover_message(eth_encoded_msg, signature=sig)
         eth_pk = payload["pk"]
         if eth_pk==eth_recover:
             result = True
